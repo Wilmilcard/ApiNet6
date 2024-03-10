@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34202.233
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiNet6", "ApiNet6\ApiNet6.csproj", "{26EBADCA-530C-4E48-9C3E-2FF5AC3B111F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{04D1D921-66F4-44F1-80B5-D93AE0C66461}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{26EBADCA-530C-4E48-9C3E-2FF5AC3B111F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26EBADCA-530C-4E48-9C3E-2FF5AC3B111F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26EBADCA-530C-4E48-9C3E-2FF5AC3B111F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26EBADCA-530C-4E48-9C3E-2FF5AC3B111F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04D1D921-66F4-44F1-80B5-D93AE0C66461}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04D1D921-66F4-44F1-80B5-D93AE0C66461}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04D1D921-66F4-44F1-80B5-D93AE0C66461}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04D1D921-66F4-44F1-80B5-D93AE0C66461}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {666BFC1D-F4E7-4EBF-95CE-31F3F3369FA8}
+	EndGlobalSection
+EndGlobal

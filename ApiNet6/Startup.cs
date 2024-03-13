@@ -1,7 +1,19 @@
-﻿namespace ApiNet6
+﻿using Domain;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System.Runtime.CompilerServices;
+
+namespace ApiNet6
 {
-    public static class Startup
+    public class Startup
     {
+        public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         public static WebApplication InicializarApp(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -13,8 +25,16 @@
 
         public static void ConfigureServices(WebApplicationBuilder builder)
         {
+            // Add services to the container.
+            ConfigurationManager configuration = builder.Configuration;
+            IWebHostEnvironment environment = builder.Environment;
+
+            //Dependencias de Domain
+            builder.Services.AddCustomizedDataStore(builder.Configuration);
+            //builder.Services.AddCustomizedRepository();
+            builder.Services.AddCustomizedServicesProject();
+
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
         }

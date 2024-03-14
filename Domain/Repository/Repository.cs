@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Repository
 {
-    public class Repository<T> : IRepository<T> where T : class
+    class Repository<T> : IRepository<T> where T : class
     {
         private readonly ApiNet6Context _dbContext;
         public Repository(ApiNet6Context dbContext)

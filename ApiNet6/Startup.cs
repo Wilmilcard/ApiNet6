@@ -1,4 +1,6 @@
-﻿using Domain;
+﻿using ApiNet6.Interfaces;
+using ApiNet6.Services;
+using Domain;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
@@ -28,13 +30,14 @@ namespace ApiNet6
             // Add services to the container.
             ConfigurationManager configuration = builder.Configuration;
             IWebHostEnvironment environment = builder.Environment;
+            
+            builder.Services.AddControllers();
 
             //Dependencias de Domain
             builder.Services.AddCustomizedDataStore(builder.Configuration);
-            //builder.Services.AddCustomizedRepository();
             builder.Services.AddCustomizedServicesProject();
+            builder.Services.AddCustomizedRepository();
 
-            builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
         }

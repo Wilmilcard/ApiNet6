@@ -15,12 +15,13 @@
 
 # 🚩 Objetivo
 
-Este proyecto esta desarrollado C# utilizando CodeFirst y MySql; con el fin de demostrar habilidades en el manejo del framework, y para practicar y mejorar los conocimientos aprendidos con ayuda de 
+Este proyecto esta desarrollado C# NET 6 utilizando CodeFirst y MySql; con el fin de demostrar habilidades en el manejo del framework, y para practicar y mejorar los conocimientos aprendidos con ayuda de 
 la documentacion oficial; para ello se planteo un ejercicio con el fin de darle solución desde el BackEnd.
 
 Tambien existe una misma verision del api desarrollada en php Laravel 8 y Net 5. Asi que si tambien se esta interesad@ en revisar la otra version, puede hacerlo desde este enlace:
 
 🍂 **[Version Php Laravel 8](https://github.com/Wilmilcard/PhpLaravel_Game-Store)** 🍂
+
 🥐 **[Version Net 5](https://github.com/Wilmilcard/GameStore_API)** 🥐
 
 - **[Portal del Api - se esta verificando recuperar funcionalidad](https://game-store-portal.nevergate.com.co/)**

@@ -31,13 +31,19 @@ namespace ApiNet6
             ConfigurationManager configuration = builder.Configuration;
             IWebHostEnvironment environment = builder.Environment;
             
-            builder.Services.AddControllers();
 
             //Dependencias de Domain
             builder.Services.AddCustomizedDataStore(builder.Configuration);
             builder.Services.AddCustomizedServicesProject();
             builder.Services.AddCustomizedRepository();
 
+            //Eliminar referencias circulares
+            builder.Services.AddControllers()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );
+
+            builder.Services.AddControllers(); 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
         }

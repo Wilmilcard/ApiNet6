@@ -4,6 +4,9 @@ using Domain;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace ApiNet6
 {
@@ -33,7 +36,7 @@ namespace ApiNet6
             
 
             //Dependencias de Domain
-            builder.Services.AddCustomizedDataStore(builder.Configuration);
+            builder.Services.AddCustomizedDataStore(configuration);
             builder.Services.AddCustomizedServicesProject();
             builder.Services.AddCustomizedRepository();
 
@@ -42,6 +45,24 @@ namespace ApiNet6
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                 );
+
+            //Authenticathion API
+            builder.Services.AddAuthentication(auth =>
+            {
+                auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(jwt =>
+            {
+                jwt.RequireHttpsMetadata = false;
+                jwt.SaveToken = true;
+                jwt.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration.GetValue<string>("SecurityKey"))),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
 
             builder.Services.AddControllers(); 
             builder.Services.AddEndpointsApiExplorer();
@@ -57,9 +78,20 @@ namespace ApiNet6
                 app.UseSwaggerUI();
             }
 
+            app.UseCors(x => x
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+
+            app.UseRouting();
+
+            app.UseAuthentication();
+
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
+
+            app.UseCors("Policy");
 
             app.MapControllers();
         }

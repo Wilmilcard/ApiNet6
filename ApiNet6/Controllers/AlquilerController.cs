@@ -1,6 +1,8 @@
 ﻿using ApiNet6.Interfaces;
 using Domain.DB;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +11,8 @@ using System.Diagnostics;
 namespace ApiNet6.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors("Policy")]
+    [Authorize]
     [ApiController]
     public class AlquilerController : ControllerBase
     {

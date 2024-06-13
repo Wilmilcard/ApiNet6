@@ -15,7 +15,7 @@ namespace Domain.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         [Column("UserID")]
-        public int UserID { get; set; }
+        public int UserId { get; set; }
         //
         [Column("Username")]
         [StringLength(50)]
@@ -31,5 +31,12 @@ namespace Domain.Models
         public bool IsActive { get; set; }
         public bool IsAdmin { get; set; }
         public bool IsPasswordChange { get; set; }
+
+        //Foreign keys
+        public int ClienteId { set; get; }
+
+        //virtual
+        public virtual Cliente Cliente { get; set; }
+
     }
 }

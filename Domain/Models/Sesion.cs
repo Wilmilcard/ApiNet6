@@ -14,10 +14,10 @@ namespace Domain.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         [Column("SesionID")]
-        public Guid SesionID { set; get; }
+        public Guid SesionId { set; get; }
         //
         [Column("UserID")]
-        public int UserID { set; get; }
+        public int UserId { set; get; }
         [Column("Token")]
         [StringLength(500)]
         public string Token { set; get; }

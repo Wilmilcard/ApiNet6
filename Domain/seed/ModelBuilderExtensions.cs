@@ -1334,11 +1334,12 @@ namespace Domain.seed
             modelBuilder.Entity<User>().HasData(
               new User
               {
-                  UserID = 1,
+                  UserId = 1,
                   Username = "ADMIN",
                   PasswordHash = Globals.MD5("1234"),
                   IsPasswordChange = true,
                   AccessFailCount = 0,
+                  ClienteId = random.Next(1,50),
                   IsAdmin = true,
                   IsActive = true,
                   CreatedAt = _CreatedAt,
@@ -1346,11 +1347,12 @@ namespace Domain.seed
               },
               new User
               {
-                  UserID = 2,
+                  UserId = 2,
                   Username = "DEV",
-                  PasswordHash = Globals.MD5("1234"),
+                  PasswordHash = Globals.MD5("C#Lover"),
                   IsPasswordChange = false,
                   AccessFailCount = 0,
+                  ClienteId = random.Next(1, 50),
                   IsAdmin = false,
                   IsActive = true,
                   CreatedAt = _CreatedAt,

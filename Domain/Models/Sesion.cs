@@ -24,7 +24,7 @@ namespace Domain.Models
         [Column("Expiration_Date")]
         public DateTime Expiration_Date { set; get; }
         //
-        [ForeignKey("UserID")]
+        [ForeignKey("UserId")]
         public User User { set; get; }
     }
 }

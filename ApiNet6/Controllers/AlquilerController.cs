@@ -1,4 +1,5 @@
-﻿using ApiNet6.Interfaces;
+﻿using ApiNet6.HttpRequest;
+using ApiNet6.Interfaces;
 using Domain.DB;
 using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -152,6 +153,154 @@ namespace ApiNet6.Controllers
                     success = false,
                     error = ex.Message,
                     errorCode = ex.HResult
+                };
+                return new BadRequestObjectResult(response);
+            }
+        }
+
+        [HttpPost()]
+        public async Task<IActionResult> Create([FromBody] AlquilerCreateUpdate request)
+        {
+            try
+            {
+                using (var transaccion = _context.Database.BeginTransaction())
+                {
+                    if (request == null)
+                        return BadRequest(new { success = false, error = 400, content = "La informacion que envio esta vacia" });
+
+                    Alquiler a = new Alquiler
+                    {
+                        ClienteId = request.ClienteId,
+                        EstadoId = request.EstadoId,
+                        Fecha_Devolucion = request.Fecha_Devolucion,
+                        Fecha_Reservacion = request.Fecha_Reservacion,
+                        Valor_Total = request.Valor_Total,
+                        CreatedAt = Utils.Globals.FechaActual(),
+                        CreatedBy = request.CreatedBy
+                    };
+
+                    foreach (var aj in request.Juegos)
+                        await _context.AlquilerDets.AddAsync(aj);
+
+                    await _alquilerService.AddAsync(a);
+                    _context.SaveChanges();
+                    transaccion.Commit();
+                }
+
+                var response = new
+                {
+                    success = true,
+                    data = request
+                };
+
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                var response = new
+                {
+                    success = false,
+                    error = ex.Message,
+                    errorCode = ex.HResult
+                };
+                return new BadRequestObjectResult(response);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] AlquilerCreateUpdate request)
+        {
+            try
+            {
+
+                using (var transaccion = _context.Database.BeginTransaction())
+                {
+                    var a = _alquilerService.GetByIdAsync(id).Result;
+                    if (a != null)
+                    {
+                        a.AlquilerId = request.AlquilerId;
+                        a.ClienteId = request.ClienteId;
+                        a.EstadoId = request.EstadoId;
+                        a.Fecha_Devolucion = request.Fecha_Devolucion;
+                        a.Fecha_Reservacion = request.Fecha_Reservacion;
+                        a.Valor_Total = request.Valor_Total;
+                        a.CreatedAt = request.CreatedAt;
+                        a.CreatedBy = request.CreatedBy;
+                        a.UpdatedAt = Utils.Globals.FechaActual();
+
+                        var list = _context.AlquilerDets.Where(x => x.AlquilerId == a.AlquilerId);
+                        foreach (var del in list)
+                            _context.AlquilerDets.Remove(del);
+
+                        foreach (var aj in request.Juegos)
+                            await _context.AlquilerDets.AddAsync(aj);
+
+                        await _alquilerService.UpdateAsync(a);
+                        _context.SaveChanges();
+                        transaccion.Commit();
+                    }
+                }
+
+                var response = new
+                {
+                    success = true
+                };
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                var response = new
+                {
+                    success = false,
+                    error = ex.Message,
+                };
+                return new BadRequestObjectResult(response);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var a = _alquilerService.QueryNoTracking().Where(x => x.AlquilerId == id).FirstOrDefault();
+            if (a != null)
+            {
+                try
+                {
+                    using (var transaccion = _context.Database.BeginTransaction())
+                    {
+                        var rpta = _alquilerService.DeleteAsync(a).Result;
+
+                        var list = _context.AlquilerDets.Where(x => x.AlquilerId == a.AlquilerId);
+                        foreach (var del in list)
+                            _context.AlquilerDets.Remove(del);
+
+                        transaccion.Commit();
+                    }
+
+                    var response = new
+                    {
+                        success = true
+                    };
+                    return new OkObjectResult(response);
+                }
+                catch (Exception ex)
+                {
+                    var response = new
+                    {
+                        success = false,
+                        error = ex.Message,
+                        errorCode = ex.HResult
+                    };
+                    return new BadRequestObjectResult(response);
+                }
+            }
+            else
+            {
+                var response = new
+                {
+                    success = false,
+                    error = "No se encontro Alquiler.",
+                    errorCode = 400
                 };
                 return new BadRequestObjectResult(response);
             }

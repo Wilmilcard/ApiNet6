@@ -34,7 +34,6 @@ namespace ApiNet6
             ConfigurationManager configuration = builder.Configuration;
             IWebHostEnvironment environment = builder.Environment;
             
-
             //Dependencias de Domain
             builder.Services.AddCustomizedDataStore(configuration);
             builder.Services.AddCustomizedServicesProject();
@@ -64,6 +63,9 @@ namespace ApiNet6
                 };
             });
 
+            //Add GlobalException
+            builder.Services.AddTransient<GlobalExceptionHandler>();
+
             builder.Services.AddControllers(); 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -82,6 +84,8 @@ namespace ApiNet6
             .AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader());
+
+            app.UseMiddleware<GlobalExceptionHandler>();
 
             app.UseRouting();
 
